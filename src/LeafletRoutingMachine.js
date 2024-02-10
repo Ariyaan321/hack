@@ -45,6 +45,9 @@ const LeafletRoutingMachine = ({ mark1, mark2 }) => {
         updateRouting();
 
         return () => {
+
+
+            
             if (routingControlRef.current) {
                 try {
                     map.removeControl(routingControlRef.current);

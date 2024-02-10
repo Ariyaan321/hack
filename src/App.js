@@ -1,7 +1,7 @@
 // THIS IS IN testmaster
 import React from 'react'
 import { useRef, useState, useEffect } from 'react'
-import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
+import { MapContainer, TileLayer, useMap, Marker, Popup, Polygon } from 'react-leaflet'
 import L from 'leaflet'; // Import Leaflet library
 import 'leaflet-routing-machine';
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
@@ -14,8 +14,14 @@ export default function App() {
     const city2Ref = useRef();
     const [mark1, setMark1] = useState(0)
     const [mark2, setMark2] = useState(0)
+    const [position, setPosition] = useState(null);
     let city1Value = ""
     let city2Value = ""
+    const polygonPositions = [
+        [21.181510, 79.050491],
+        [21.158179, 79.120498],
+        [21.154620, 79.099994],
+    ];
 
     async function handleFormSubmit(e) {
         e.preventDefault()
@@ -56,7 +62,10 @@ export default function App() {
 
     }
 
-
+    const handleMapClick = (e) => {
+        setPosition(e.latlng);
+    };
+    
     return (
         <>
             <div className="app-container">
@@ -78,7 +87,7 @@ export default function App() {
                     </form>
                 </div>
 
-                <MapContainer center={[21.146633, 79.088860]} zoom={13} scrollWheelZoom={true}>
+                <MapContainer center={[21.146633, 79.088860]} zoom={13} scrollWheelZoom={true} onClick={handleMapClick}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -89,10 +98,24 @@ export default function App() {
 
                         </Popup>
                     </Marker>
-
+                    {position && (
+                        <Marker position={position}>
+                            <Popup>
+                                Latitude: {position.lat}<br />
+                                Longitude: {position.lng}
+                            </Popup>
+                        </Marker>
+                    )}
+                    <Polygon
+                        positions={polygonPositions}
+                        color="blue"
+                        fillColor="blue"
+                        fillOpacity={0.5}
+                    />
                     <LeafletRoutingMachine mark1={mark1} mark2={mark2} />
 
                 </MapContainer >
+                
             </div>
         </>
     )
