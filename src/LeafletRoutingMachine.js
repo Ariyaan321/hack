@@ -1,14 +1,15 @@
-// this is in ar
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet-routing-machine";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
-import { useMap } from "react-leaflet";
+import { useMap, Marker, Popup, Polygon } from "react-leaflet";
 
-const LeafletRoutingMachine = ({ mark1, mark2, markc }) => {
+const LeafletRoutingMachine = ({ mark1, mark2 }) => {
     const map = useMap();
     const routingControlRef = useRef(null);
-
+    const [markers, setMarkers] = useState([]);
+    const [polygonPositions, setPolyPosition] = useState([]);
+    let markerId = 0;
     useEffect(() => {
         const updateRouting = async () => {
             if (routingControlRef.current != null) {
@@ -38,74 +39,24 @@ const LeafletRoutingMachine = ({ mark1, mark2, markc }) => {
             } catch (error) {
                 console.error("Error adding control:", error);
             }
+
+            // Add the event listener for the 'click' event
+            map.on("click", handleMapClick);
         };
 
         updateRouting();
 
-        map.on('click', handleMapClick)
-
-
-
-        // Get the coordinates where the user clicked
-        // console.log("Hello")
-        // const { lat, lng } = e.latlng;
-        // reverseGeocode(lat, lng)
-        // Perform reverse-geocoding using Nominatim
-        /* const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
- 
- 
-         const revGeo = async (lat, lng) => {
-             const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
- 
-             try {
-                 const response = await fetch(url);
- 
-                 if (!response.ok) {
-                     throw new Error(`HTTP error! Status: ${response.status}`);
-                 }
- 
-                 const data = await response.json();
-                 console.log('Location:', data.display_name);
- 
-                 // If you want to display on the webpage, you can use the following code
-                 // const coordinateDiv = document.getElementById('coordinate');
-                 // coordinateDiv.innerHTML = `Location: ${data.display_name}`;
-             } catch (error) {
-                 console.error('Error:', error);
-             }
-         };
- 
- 
-         /* fetch(url)
-              .then(response => response.json())
-              .then(data => {
-                  // Display the location information on the console
-                  console.log('Location:', data.display_name);
- 
-                  // If you want to display on the webpage, you can use the following code
-                  // const coordinateDiv = document.getElementById('coordinate');
-                  // coordinateDiv.innerHTML = `Location: ${data.display_name}`;
-              })
-              .catch(error => console.error('Error:', error));
-             */
-
-
-        // });
-
-
-
-
         return () => {
-            map.off('click', handleMapClick);
             if (routingControlRef.current) {
                 try {
                     map.removeControl(routingControlRef.current);
+                    // Remove the event listener for the 'click' event
+                    map.off("click", handleMapClick);
                 } catch (error) {
                     console.error("Error removing control:", error);
                 } finally {
                     routingControlRef.current = null;
                 }
-
             }
         };
     }, [mark1, mark2, map]);
@@ -131,11 +82,6 @@ const LeafletRoutingMachine = ({ mark1, mark2, markc }) => {
         });
     };
 
-    const handleMapClick = (e) => {
-        const { lat, lng } = e.latlng;
-        reverseGeocode(lat, lng)
-    }
-
     // Function to handle location changes
     const changeLoc = (e) => {
         var waypoints = e.routes[0].waypoints;
@@ -154,31 +100,53 @@ const LeafletRoutingMachine = ({ mark1, mark2, markc }) => {
     // Reverse geocoding function
     const reverseGeocode = async (lat, lon, targetInputId) => {
         try {
-            if (targetInputId == undefined) {
-                targetInputId = "city1"
-            }
             const response = await fetch(
                 `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
             );
             const data = await response.json();
             const locationName = data.display_name;
 
-            console.log("MarkerClick: ", markerClick)
-
             // Update the DOM element with the obtained location information
             const targetInput = document.getElementById(targetInputId);
             if (targetInput) {
                 targetInput.value = locationName;
-                console.log(targetInputId + " : " + locationName);
+                console.log(`${targetInputId} : ${locationName}`);
             } else {
-                console.error(`Error: DOM element with id ${targetInputId} not found.`);
+                console.error("Error: DOM element with id ${ targetInputId } not found.");
             }
         } catch (error) {
-            console.error(`Error in reverse geocoding for ${targetInputId}:`, error);
+            console.error("Error in reverse geocoding for ${ targetInputId }:", error);
         }
     };
 
-    return null; // Return null as the LeafletRoutingMachine component doesn't render anything
+    const handleMapClick = (e) => {
+        // Get the coordinates where the user clicked
+        const { lat, lng } = e.latlng;
+        const newpoint = [lat, lng];
+        // Create a new marker element
+        const newMarker = (
+            <Marker key={markerId++} position={[lat, lng]}>
+                <Popup>
+                    A pretty CSS3 popup. <br /> Easily customizable.
+                </Popup>
+            </Marker>
+        );
+        // Update the markers state to include the new marker
+        setMarkers((prevMarkers) => [...prevMarkers, newMarker]);
+        setPolyPosition((polygonPositions) => [...polygonPositions, newpoint]);
+        reverseGeocode(lat, lng, "city3");
+    };
+    // if (markers.length > 2) {
+    //     return (
+    //         <Polygon
+    //             positions={polygonPositions}
+    //             color="blue"
+    //             fillColor="blue"
+    //             fillOpacity={0.5}
+    //         />
+    //     );
+    // }
+    return <>{markers}</>; // Render the markers
 };
 
 export default LeafletRoutingMachine;
