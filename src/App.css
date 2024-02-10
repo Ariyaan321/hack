@@ -1,0 +1,30 @@
+.leaflet-container {
+  /* width: 100vw;
+  height: 100vh; */
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  /* background-repeat: no-repeat; */
+}
+
+.funs {
+  margin-left: 5%;
+  width: 150px;
+  height: 90px;
+  cursor: pointer;
+  padding: 5px;
+  z-index: 999;
+
+}
+
+#submit {
+  height: 20px;
+  width: 100px;
+
+
+}
+
+.app-container {
+  display: flex;
+
+}
