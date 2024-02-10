@@ -34,6 +34,7 @@ export default function App() {
     }
 
     async function cityCoords(city) {
+        console.log("CHANGEDCHANGEDCHANGEDCHANGEDCHANGEDCHANGEDCHANGEDCHANGEDCHANGEDCHANGED")
         var url = "https://nominatim.openstreetmap.org/search?format=json&limit=3&q=" + city;
 
         try {
