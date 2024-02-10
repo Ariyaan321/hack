@@ -1,3 +1,4 @@
+// THIS IS IN ar
 import React, { useEffect, useRef } from "react";
 import L from 'leaflet';
 import 'leaflet-routing-machine'
@@ -5,25 +6,71 @@ import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import { useMap } from "react-leaflet"
 
 
-const LeafletRoutingMachine = ({ mark1, mark2, citydom }) => {
+const LeafletRoutingMachine = ({ mark1, mark2 }) => {
     const map = useMap();
-    console.log("inhere: ", mark1)
-    console.log("inhere: ", mark1[0])
+    // console.log("inhere: ", mark1)
+    // console.log("inhere: ", mark1[0])
     const routingControlRef = useRef(null)
-    var routingControl
+    // var routingControlTemp;
+    // var routingControl = null
 
+    useEffect(() => {
+        const updateRouting = async () => {
+            if (routingControlRef.current != null) {
+                try {
+                    map.removeControl(routingControlRef.current);
+                    // map.removeLayer(routingControlRef.current);
+                } catch (error) {
+                    console.error("Error removing control:", error);
+                } finally {
+                    routingControlRef.current = null;
+                }
+            }
 
-    async function changeLoc(mark1, mark2) {
+            try {
+                const routingControl = L.routing.control({
+                    waypoints: [
+                        L.latLng(mark1[0], mark1[1]),
+                        L.latLng(mark2[0], mark2[1])
+                    ]
+                }).addTo(map);
 
+                routingControlRef.current = routingControl;
+            } catch (error) {
+                console.error("Error adding control:", error);
+            }
+            // changeLoc(mark1, mark2);
+        };
 
-        var removeRoutingControl = function () {
-            console.log("MMMMMMMMMMMMMMMMMMMMM")
-            if (routingControl != null) {
-                map.removeControl(routingControl);
-                routingControl = null;
+        updateRouting();
+
+        return () => {
+            if (routingControlRef.current) {
+                try {
+                    map.removeControl(routingControlRef.current);
+                    // map.removeLayer(routingControlRef.current);
+                } catch (error) {
+                    routingControlRef.current = null;
+                } finally {
+                    routingControlRef.current = null;
+                }
             }
         };
-        removeRoutingControl()
+    }, [mark1, mark2, map]);
+}
+
+export default LeafletRoutingMachine;
+/*
+    async function changeLoc(mark1, mark2) {
+
+        // var removeRoutingControl = function () {
+        //     console.log("MMMMMMMMMMMMMMMMMMMMM")
+        //     if (routingControl != null) {
+        //         map.removeLayer(routingControl);
+        //         routingControl = null;
+        //     }
+        // };
+        // removeRoutingControl()
 
 
         // Changes detected are stored
@@ -102,33 +149,38 @@ const LeafletRoutingMachine = ({ mark1, mark2, citydom }) => {
         //     }
         // });
     }
-
-
+*/
+// const cleanupRoutingControl = () => {
+//     if (routingControlRef.current) {
+//         routingControlRef.current.getPlan().setWaypoints([]);
+//     }
+// };
+/*
     useEffect(() => {
+        // changeLoc(mark1, mark2)
         // if (routingControlRef.current) {
         //     routingControlRef.current.setWaypoints([]);
         //     routingControlRef.current.setWaypoints(map);
         // }
+
+        // setTimeout(() => { routingControl.remove() }, 3000)
 
         routingControl = L.routing.control({
             waypoints: [
                 L.latLng(mark1[0], mark1[1]),
                 L.latLng(mark2[0], mark2[1])
             ]
-        }).addTo(map)
+        })
 
+        setTimeout(() => { routingControl.remove() }, 3000)
+
+        routingControl.addTo(map)
 
 
         routingControlRef.current = routingControl;
-        changeLoc(mark1, mark2)
-        return () => {
-            if (routingControlRef.current) {
-                // console.log("rouControl: ", routingControlRef)
-                // console.log("rouControl2: ", routingControlRef.current)
-                // console.log("rouControl3: ", routingControlRef.current.getPlan())
-                routingControlRef.current.getPlan().setWaypoints([]);
-            }
-        };
+
+
+        // return cleanupRoutingControl
         // return () => {
         //     // Cleanup: remove routing control from the map
         //     if (routingControlRef.current) {
@@ -143,7 +195,9 @@ const LeafletRoutingMachine = ({ mark1, mark2, citydom }) => {
 };
 
 export default LeafletRoutingMachine;
-// this is in ar
+ */
+// For useEffect()
+
 
 // const map = useMap();
 // let DefaultIcon = L.icon({

@@ -1,3 +1,4 @@
+// THIS IS IN ar
 import React from 'react'
 // import { useLeafletContext } from '@react-leaflet/core'
 import { useRef, useState, useEffect } from 'react'
@@ -5,12 +6,15 @@ import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 import L from 'leaflet'; // Import Leaflet library
 import 'leaflet-routing-machine';
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
+
+// import { useMap } from "react-leaflet"
+
 import './App.css'
 import LeafletRoutingMachine from './LeafletRoutingMachine';
 export default function App() {
 
 
-    // function Square(props) {
+    // function Square(props) { 
 
     // const context = useLeafletContext()
     //     useEffect(() => {
@@ -31,7 +35,7 @@ export default function App() {
 
     var city1Ref = useRef();
     const city2Ref = useRef();
-    const [routeEnable, setRouteEnable] = useState(false);
+    // const [routeEnable, setRouteEnable] = useState(false);
     const [mark1, setMark1] = useState(0)
     const [mark2, setMark2] = useState(0)
     let city1Value = ""
@@ -107,9 +111,10 @@ export default function App() {
         var c2 = await cityCoords(city2Value)
         console.log("c1: ", c1)
         console.log("c1: ", c1[0])
-        setRouteEnable(true)
+        // setRouteEnable(true)
         setMark1(c1)
         setMark2(c2)
+        // Lrm(mark1, mark2)
         // console.log("mark1: ", mark1)
         // console.log("mark1: ", mark1[0])
         // setRouteEnable(true)
@@ -222,6 +227,66 @@ export default function App() {
     }
 
 
+
+
+
+
+    // const Lrm = ({ mark1, mark2 }) => {
+    //     const map = useMap();
+    //     // console.log("inhere: ", mark1)
+    //     // console.log("inhere: ", mark1[0])
+    //     const routingControlRef = useRef(null)
+    //     // var routingControlTemp;
+    //     // var routingControl = null
+
+    //     useEffect(() => {
+    //         const updateRouting = async () => {
+    //             if (routingControlRef.current != null) {
+    //                 try {
+    //                     map.removeControl(routingControlRef.current);
+    //                     // map.removeLayer(routingControlRef.current);
+    //                 } catch (error) {
+    //                     console.error("Error removing control:", error);
+    //                 } finally {
+    //                     routingControlRef.current = null;
+    //                 }
+    //             }
+
+    //             try {
+    //                 const routingControl = L.routing.control({
+    //                     waypoints: [
+    //                         L.latLng(mark1[0], mark1[1]),
+    //                         L.latLng(mark2[0], mark2[1])
+    //                     ]
+    //                 }).addTo(map);
+
+    //                 routingControlRef.current = routingControl;
+    //             } catch (error) {
+    //                 console.error("Error adding control:", error);
+    //             }
+    //             // changeLoc(mark1, mark2);
+    //         };
+
+    //         updateRouting();
+
+    //         return () => {
+    //             if (routingControlRef.current) {
+    //                 try {
+    //                     map.removeControl(routingControlRef.current);
+    //                     // map.removeLayer(routingControlRef.current);
+    //                 } catch (error) {
+    //                     routingControlRef.current = null;
+    //                 } finally {
+    //                     routingControlRef.current = null;
+    //                 }
+    //             }
+    //         };
+    //     }, [mark1, mark2, map]);
+    // }
+
+
+
+
     return (
         <>
             <div className="app-container">
@@ -257,7 +322,8 @@ export default function App() {
                     {/* {map && !routeControl && (
                         <RoutingControl setRouteControl={setRouteControl} map={map} />
                     )} */}
-                    {routeEnable ? <LeafletRoutingMachine mark1={mark1} mark2={mark2} /> : null}
+                    {/* {routeEnable ? <LeafletRoutingMachine mark1={mark1} mark2={mark2} /> : null} */}
+                    <LeafletRoutingMachine mark1={mark1} mark2={mark2} />
                 </MapContainer >
             </div>
         </>
