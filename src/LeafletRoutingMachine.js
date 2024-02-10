@@ -42,7 +42,61 @@ const LeafletRoutingMachine = ({ mark1, mark2 }) => {
 
         updateRouting();
 
+        map.on('click', handleMapClick)
+
+
+
+        // Get the coordinates where the user clicked
+        // console.log("Hello")
+        // const { lat, lng } = e.latlng;
+        // reverseGeocode(lat, lng)
+        // Perform reverse-geocoding using Nominatim
+        /* const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
+ 
+ 
+         const revGeo = async (lat, lng) => {
+             const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
+ 
+             try {
+                 const response = await fetch(url);
+ 
+                 if (!response.ok) {
+                     throw new Error(`HTTP error! Status: ${response.status}`);
+                 }
+ 
+                 const data = await response.json();
+                 console.log('Location:', data.display_name);
+ 
+                 // If you want to display on the webpage, you can use the following code
+                 // const coordinateDiv = document.getElementById('coordinate');
+                 // coordinateDiv.innerHTML = `Location: ${data.display_name}`;
+             } catch (error) {
+                 console.error('Error:', error);
+             }
+         };
+ 
+ 
+         /* fetch(url)
+              .then(response => response.json())
+              .then(data => {
+                  // Display the location information on the console
+                  console.log('Location:', data.display_name);
+ 
+                  // If you want to display on the webpage, you can use the following code
+                  // const coordinateDiv = document.getElementById('coordinate');
+                  // coordinateDiv.innerHTML = `Location: ${data.display_name}`;
+              })
+              .catch(error => console.error('Error:', error));
+             */
+
+
+        // });
+
+
+
+
         return () => {
+            map.off('click', handleMapClick);
             if (routingControlRef.current) {
                 try {
                     map.removeControl(routingControlRef.current);
@@ -51,6 +105,7 @@ const LeafletRoutingMachine = ({ mark1, mark2 }) => {
                 } finally {
                     routingControlRef.current = null;
                 }
+
             }
         };
     }, [mark1, mark2, map]);
@@ -76,6 +131,11 @@ const LeafletRoutingMachine = ({ mark1, mark2 }) => {
         });
     };
 
+    const handleMapClick = (e) => {
+        const { lat, lng } = e.latlng;
+        reverseGeocode(lat, lng)
+    }
+
     // Function to handle location changes
     const changeLoc = (e) => {
         var waypoints = e.routes[0].waypoints;
@@ -94,11 +154,16 @@ const LeafletRoutingMachine = ({ mark1, mark2 }) => {
     // Reverse geocoding function
     const reverseGeocode = async (lat, lon, targetInputId) => {
         try {
+            if (targetInputId == undefined) {
+                targetInputId = "city1"
+            }
             const response = await fetch(
                 `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
             );
             const data = await response.json();
             const locationName = data.display_name;
+
+            console.log("MarkerClick: ", markerClick)
 
             // Update the DOM element with the obtained location information
             const targetInput = document.getElementById(targetInputId);
