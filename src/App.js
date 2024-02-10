@@ -14,6 +14,7 @@ export default function App() {
     const city2Ref = useRef();
     const [mark1, setMark1] = useState(0)
     const [mark2, setMark2] = useState(0)
+    const [revgeomarker, setRevgeomarker] = useState(0)
     let city1Value = ""
     let city2Value = ""
 
@@ -22,6 +23,7 @@ export default function App() {
 
         city1Value = city1Ref.current.value
         city2Value = city2Ref.current.value
+        revgeomarker = revgeomarker
         console.log("city1: ", city1Value)
         console.log("city2: ", city2Value)
 
@@ -31,6 +33,7 @@ export default function App() {
         console.log("c1: ", c1[0])
         setMark1(c1)
         setMark2(c2)
+        setRevgeomarker()
     }
 
     async function cityCoords(city) {
@@ -83,14 +86,14 @@ export default function App() {
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <Marker position={[0, 0]} id="markerClick">
+                    <Marker position={[0, 0]} ref={revgeomarker} id="markerClick">
                         <Popup>
                             A pretty CSS3 popup. <br /> Easily customizable.
 
                         </Popup>
                     </Marker>
 
-                    <LeafletRoutingMachine mark1={mark1} mark2={mark2} />
+                    <LeafletRoutingMachine mark1={mark1} mark2={mark2} markc={/>
 
                 </MapContainer >
             </div>

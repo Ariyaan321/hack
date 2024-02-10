@@ -5,7 +5,7 @@ import "leaflet-routing-machine";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import { useMap } from "react-leaflet";
 
-const LeafletRoutingMachine = ({ mark1, mark2 }) => {
+const LeafletRoutingMachine = ({ mark1, mark2, markc }) => {
     const map = useMap();
     const routingControlRef = useRef(null);
 
