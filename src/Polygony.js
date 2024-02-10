@@ -6,13 +6,12 @@ import { useMap, Marker, Popup, Polygon } from "react-leaflet";
 
 
 const Polygony = () => {
-    console.log("In Poly")
     const [polygonPositions, setPolygonPositions] = useState([])
     const map = useMap();
 
     useEffect(() => {
-        console.log("In Polygony")
         const addMark = (e) => {
+            console.log("marker: ", [e.latlng.lat, e.latlng.lng])
             setPolygonPositions([...polygonPositions, [e.latlng.lat, e.latlng.lng]]);
         };
 

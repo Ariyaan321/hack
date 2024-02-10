@@ -7,8 +7,7 @@
   /* background-repeat: no-repeat; */
 }
 
-.funs,
-.polybutton {
+.funs {
   margin-left: 5%;
   width: 150px;
   height: 90px;
@@ -19,11 +18,11 @@
 }
 
 .polybutton {
-  width: 40px;
+  width: 70px;
+  margin-left: 5%;
   height: 40px;
   cursor: pointer;
   padding: 5px;
-  z-index: 9999999999999;
 }
 
 #submit {
