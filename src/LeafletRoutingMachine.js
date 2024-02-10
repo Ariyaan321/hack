@@ -127,7 +127,7 @@ const LeafletRoutingMachine = ({ mark1, mark2 }) => {
         const newMarker = (
             <Marker key={markerId++} position={[lat, lng]}>
                 <Popup>
-                    A pretty CSS3 popup. <br /> Easily customizable.
+                  popup
                 </Popup>
             </Marker>
         );
