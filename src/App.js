@@ -7,7 +7,10 @@ import 'leaflet-routing-machine';
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import './App.css'
 import LeafletRoutingMachine from './LeafletRoutingMachine';
+<<<<<<< HEAD
 import LeafletRoutingMachine1 from './LeafletRoutingMachine1';
+=======
+>>>>>>> 45418b55d35f57e748f8f41fa127efac63360d66
 
 export default function App() {
 
