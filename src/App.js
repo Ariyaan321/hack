@@ -1,11 +1,17 @@
+<<<<<<< HEAD
 // THIS IS IN ar
 import React from 'react'
 // import { useLeafletContext } from '@react-leaflet/core'
+=======
+// THIS IS IN testmaster
+import React from 'react'
+>>>>>>> fb2b326b435530d3fcdf0b6165a0d165c1a45877
 import { useRef, useState, useEffect } from 'react'
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
 import L from 'leaflet'; // Import Leaflet library
 import 'leaflet-routing-machine';
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
+<<<<<<< HEAD
 
 // import { useMap } from "react-leaflet"
 
@@ -36,10 +42,20 @@ export default function App() {
     var city1Ref = useRef();
     const city2Ref = useRef();
     // const [routeEnable, setRouteEnable] = useState(false);
+=======
+import './App.css'
+import LeafletRoutingMachine from './LeafletRoutingMachine';
+
+export default function App() {
+
+    var city1Ref = useRef();
+    const city2Ref = useRef();
+>>>>>>> fb2b326b435530d3fcdf0b6165a0d165c1a45877
     const [mark1, setMark1] = useState(0)
     const [mark2, setMark2] = useState(0)
     let city1Value = ""
     let city2Value = ""
+<<<<<<< HEAD
     // var mark1
     // var mark2
 
@@ -98,6 +114,8 @@ export default function App() {
 
     //     return null;
     // };
+=======
+>>>>>>> fb2b326b435530d3fcdf0b6165a0d165c1a45877
 
     async function handleFormSubmit(e) {
         e.preventDefault()
@@ -111,6 +129,7 @@ export default function App() {
         var c2 = await cityCoords(city2Value)
         console.log("c1: ", c1)
         console.log("c1: ", c1[0])
+<<<<<<< HEAD
         // setRouteEnable(true)
         setMark1(c1)
         setMark2(c2)
@@ -203,6 +222,12 @@ export default function App() {
 
     // }, [mark1, mark2, map])
 
+=======
+        setMark1(c1)
+        setMark2(c2)
+    }
+
+>>>>>>> fb2b326b435530d3fcdf0b6165a0d165c1a45877
     async function cityCoords(city) {
         var url = "https://nominatim.openstreetmap.org/search?format=json&limit=3&q=" + city;
 
@@ -227,6 +252,7 @@ export default function App() {
     }
 
 
+<<<<<<< HEAD
 
 
 
@@ -287,6 +313,8 @@ export default function App() {
 
 
 
+=======
+>>>>>>> fb2b326b435530d3fcdf0b6165a0d165c1a45877
     return (
         <>
             <div className="app-container">
@@ -319,14 +347,24 @@ export default function App() {
 
                         </Popup>
                     </Marker>
+<<<<<<< HEAD
                     {/* {map && !routeControl && (
                         <RoutingControl setRouteControl={setRouteControl} map={map} />
                     )} */}
                     {/* {routeEnable ? <LeafletRoutingMachine mark1={mark1} mark2={mark2} /> : null} */}
                     <LeafletRoutingMachine mark1={mark1} mark2={mark2} />
+=======
+
+                    <LeafletRoutingMachine mark1={mark1} mark2={mark2} />
+
+>>>>>>> fb2b326b435530d3fcdf0b6165a0d165c1a45877
                 </MapContainer >
             </div>
         </>
     )
+<<<<<<< HEAD
 }
 
+=======
+}
+>>>>>>> fb2b326b435530d3fcdf0b6165a0d165c1a45877
