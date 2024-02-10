@@ -94,7 +94,7 @@ export default function App() {
 
                     </form>
                     )}
-                    {!polygonyMode ? <button onClick={() => setPolygonyMode(!polygonyMode)} className="polybutton">create polygon</button> : null}
+                    {!polygonyMode ? <button onClick={() => setPolygonyMode(!polygonyMode)} className="polybutton">set polygon</button> : null}
                     {polygonyMode && <button type="submit" id="poly" onClick={handlePolygon}>
                         polygon
                     </button>
