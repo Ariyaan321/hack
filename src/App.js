@@ -1,12 +1,13 @@
 // THIS IS IN master
 import React from "react";
 import { useRef, useState, useEffect } from "react";
-import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, useMap, Marker, Popup, Polygon } from "react-leaflet";
 import L from "leaflet"; // Import Leaflet library
 import "leaflet-routing-machine";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import "./App.css";
 import LeafletRoutingMachine from "./LeafletRoutingMachine";
+import Polygony from "./Polygony"
 
 export default function App() {
     var city1Ref = useRef();
@@ -14,9 +15,11 @@ export default function App() {
     const city3Ref = useRef();
     const [mark1, setMark1] = useState(0);
     const [mark2, setMark2] = useState(0);
+    const [polygonyMode, setPolygonyMode] = useState(true);
     let city1Value = "";
     let city2Value = "";
     let city3Value = "";
+
 
     async function handleFormSubmit(e) {
         e.preventDefault();
@@ -34,6 +37,12 @@ export default function App() {
         console.log("c1: ", c1[0]);
         setMark1(c1);
         setMark2(c2);
+    }
+
+    function handlePolygon() {
+        console.log("handlePoly function")
+        setPolygonyMode(!polygonyMode)
+        // set the condition to true so that Polygon.sj funcitn can render sth like that
     }
 
     async function cityCoords(city) {
@@ -64,7 +73,7 @@ export default function App() {
         <>
             <div className="app-container">
                 <div className="funs">
-                    <form className="funs_form" onSubmit={handleFormSubmit}>
+                    {polygonyMode && (<form className="funs_form" onSubmit={handleFormSubmit}>
                         <input type="text" id="city1" placeholder="city1" ref={city1Ref} />
                         <input type="text" id="city2" placeholder="city2" ref={city2Ref} />
                         <input
@@ -76,7 +85,15 @@ export default function App() {
                         <button type="submit" id="submit">
                             Submit
                         </button>
+
+
                     </form>
+                    )}
+                    {!polygonyMode ? <button onClick={() => setPolygonyMode(!polygonyMode)} className="polybutton">create polygon</button> : null}
+                    {polygonyMode && <button type="submit" id="poly" onClick={handlePolygon}>
+                        polygon
+                    </button>
+                    }
                 </div>
 
                 <MapContainer
@@ -88,13 +105,18 @@ export default function App() {
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    {/* <Marker position={[146633, 79.08886]}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
-          </Marker> */}
 
-                    <LeafletRoutingMachine mark1={mark1} mark2={mark2} />
+
+                    {polygonyMode ? <LeafletRoutingMachine mark1={mark1} mark2={mark2} /> : null}
+
+                    {
+                        !polygonyMode && (
+                            <>
+                                <Polygony />
+                            </>
+                        )
+                    }
+
                 </MapContainer>
             </div>
         </>
