@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-// THIS IS IN ar
-=======
 // THIS IS IN testmaster
->>>>>>> fb2b326b435530d3fcdf0b6165a0d165c1a45877
 import React, { useEffect, useRef } from "react";
 import L from 'leaflet';
 import 'leaflet-routing-machine'
@@ -123,35 +119,6 @@ export default LeafletRoutingMachine;
         catch {
             console.log("error in rev-geoco 2")
         }
-
-
-
-        // $.ajax({
-        //     url: `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latloc1}&lon=${longloc1}`,
-        //     success: function (result) {
-        //         // Extract the desired information from the result
-        //         var locationName = result.display_name;
-
-        //         // Update the DOM element with the obtained location information
-        //         city1Value.value = locationName;
-        //         console.log(city1Value.value);
-        //     },
-        //     error: function (error) {
-        //         console.error("Error in reverse geocoding:", error);
-        //     }
-        // });
-
-        // $.ajax({
-        //     url: `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latloc2}&lon=${longloc2}`,
-        //     success: function (result) {
-        //         var locationName = result.display_name;
-        //         city2Value.value = locationName;
-        //         console.log(city2Value.value);
-        //     },
-        //     error: function (error) {
-        //         console.error("Error in reverse geocoding for city2:", error);
-        //     }
-        // });
     }
 */
 // const cleanupRoutingControl = () => {
