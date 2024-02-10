@@ -17,12 +17,7 @@ export default function App() {
     const [position, setPosition] = useState(null);
     let city1Value = ""
     let city2Value = ""
-    const polygonPositions = [
-        [21.181510, 79.050491],
-        [21.158179, 79.120498],
-        [21.154620, 79.099994],
-    ];
-
+   
     async function handleFormSubmit(e) {
         e.preventDefault()
 
@@ -106,12 +101,7 @@ export default function App() {
                             </Popup>
                         </Marker>
                     )}
-                    <Polygon
-                        positions={polygonPositions}
-                        color="blue"
-                        fillColor="blue"
-                        fillOpacity={0.5}
-                    />
+                    
                     <LeafletRoutingMachine mark1={mark1} mark2={mark2} />
 
                 </MapContainer >
