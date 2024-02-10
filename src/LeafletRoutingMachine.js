@@ -1,13 +1,13 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet-routing-machine";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
-import { useMap } from "react-leaflet";
+import { useMap, Marker, Popup } from "react-leaflet";
 
 const LeafletRoutingMachine = ({ mark1, mark2 }) => {
   const map = useMap();
   const routingControlRef = useRef(null);
-
+  const [markers, setMarkers] = useState([]);
   useEffect(() => {
     const updateRouting = async () => {
       if (routingControlRef.current != null) {
@@ -37,6 +37,12 @@ const LeafletRoutingMachine = ({ mark1, mark2 }) => {
       } catch (error) {
         console.error("Error adding control:", error);
       }
+      if (routingControlRef.current) {
+        routingControlRef.current.on("routesfound", handleRoutesFound);
+      }
+
+      // Add the event listener for the 'click' event
+      map.on("click", handleMapClick);
     };
 
     updateRouting();
@@ -45,6 +51,8 @@ const LeafletRoutingMachine = ({ mark1, mark2 }) => {
       if (routingControlRef.current) {
         try {
           map.removeControl(routingControlRef.current);
+          // Remove the event listener for the 'click' event
+          map.off("click", handleMapClick);
         } catch (error) {
           console.error("Error removing control:", error);
         } finally {
@@ -111,8 +119,23 @@ const LeafletRoutingMachine = ({ mark1, mark2 }) => {
       console.error(`Error in reverse geocoding for ${targetInputId}:`, error);
     }
   };
+  const handleMapClick = (e) => {
+    // Get the coordinates where the user clicked
+    const { lat, lng } = e.latlng;
+    // Create a new marker element
+    const newMarker = (
+      <Marker key={markers.length} position={[lat, lng]}>
+        <Popup>
+          A pretty CSS3 popup. <br /> Easily customizable.
+        </Popup>
+      </Marker>
+    );
+    // Update the markers state to include the new marker
+    setMarkers([newMarker]);
+    reverseGeocode(lat, lng, "city3");
+  };
 
-  return null; // Return null as the LeafletRoutingMachine component doesn't render anything
+  return <>{markers}</>; 
 };
 
 export default LeafletRoutingMachine;
